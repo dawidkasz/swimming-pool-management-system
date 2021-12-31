@@ -3,5 +3,5 @@ from .views import panel_home
 
 
 urlpatterns = [
-    path('', panel_home),
+    path('', panel_home, name='panel'),
 ]
