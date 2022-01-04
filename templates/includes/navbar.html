@@ -1,6 +1,9 @@
+{% load solo_tags %}
+{% get_solo 'panel.SiteConfiguration' as site_config %}
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home' %}">Site Name</a>
+        <a class="navbar-brand" href="{% url 'home' %}">{{ site_config.name }}</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarUrls" aria-controls="navbarUrls" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
