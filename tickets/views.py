@@ -1,7 +1,11 @@
+from datetime import datetime
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
 from .forms import ReservationForm
+from .utils import get_swimlines_info
+from .models import Reservation
+from panel.utils import get_config
 from .exceptions import NoAvailableSwimlaneError, FacilityClosedError
 
 
@@ -20,5 +24,13 @@ def tickets_home(request):
 
         return HttpResponseRedirect('/')
 
+    config = get_config()
+    current_reservations = Reservation.get_overlapping_reservations(datetime.now(),
+                                                                    datetime.now())
+
+    info = get_swimlines_info(config, current_reservations)[0]
     form = ReservationForm()
-    return render(request, 'tickets/tickets.html', {'form': form})
+
+    print(info)
+
+    return render(request, 'tickets/tickets.html', {'form': form, 'info': info})
