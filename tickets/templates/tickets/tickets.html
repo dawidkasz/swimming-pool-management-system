@@ -16,7 +16,7 @@
                 </div>
             {% endif %}
 
-            <form method="POST" action="">
+            <form method="POST" action="{% url 'make-reservation' %}">
                 <h3 class="mb-3">Make a reservation:</h3>
                 {% csrf_token %}
                 {{ form.as_p }}
