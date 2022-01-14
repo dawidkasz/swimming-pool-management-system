@@ -15,6 +15,11 @@ class ReservationForm(forms.ModelForm):
     start_date = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
 
     def save(self, commit=True):
+        """
+        Parses the form data. When everything is validated, saves a Reservation 
+        instance to the database and returns it.
+        """
+
         config = get_config()
 
         reservation = super().save(commit=False)
@@ -52,12 +57,21 @@ class PayForReservationForm(forms.Form):
     ticket = forms.ImageField(required=False)
 
     def is_valid(self):
+        """
+        Returns a boolean representing whether the form data is valid.
+        """
+
         if not super().is_valid():
             return False
-        print(self.cleaned_data['reservation_id'], self.cleaned_data['ticket'])
+
         return self.cleaned_data['reservation_id'] or self.cleaned_data['ticket']
 
     def parse_reservation_id(self):
+        """
+        Parses reservation_id from the form: firstly considers id provided 
+        in the CharField, then tries to decode it from the uploaded QR code.
+        """
+
         if self.cleaned_data['reservation_id']:
             return self.cleaned_data['reservation_id']
 

@@ -4,10 +4,19 @@ from .exceptions import ReservationAlreadyPaidForError
 
 
 def is_weekday(date):
+    """
+    Returns True if the given date is weekday, False otherwise.
+    """
+
     return 0 <= date.weekday() <= 4
 
 
 def facility_open(config, start_date, end_date):
+    """
+    Returns True if the facility is open during provided 
+    start_date and end_date, False otherwise.
+    """
+
     start_time = datetime.time(hour=start_date.hour, minute=start_date.minute)
     end_time = datetime.time(hour=end_date.hour, minute=end_date.minute)
 
@@ -22,6 +31,10 @@ def facility_open(config, start_date, end_date):
 
 
 def calculate_ticket_price(config, client_type, reservation_date):
+    """
+    Calculates adequate ticket price based on provided client_type and reservation_date.
+    """
+
     weekday = is_weekday(reservation_date)
 
     if client_type == Reservation.PRIVATE_CLIENT:
@@ -34,6 +47,12 @@ def calculate_ticket_price(config, client_type, reservation_date):
 
 
 def get_swimlines_info(config, reservations):
+    """
+    Given a collection of reservations returns a tuple containing a dictionary 
+    of swimlines with the corresponding free spots and total number of lines, which
+    are taken by swim schools.
+    """
+
     num_of_lines_reserved_by_swim_schools = 0
     free_spots_on_swimlanes = {idx: config.spots_per_swimlane
                                for idx in range(1, config.num_of_swimlanes + 1)}
@@ -50,6 +69,11 @@ def get_swimlines_info(config, reservations):
 
 
 def find_next_available_swimlane(config, client_type, date_from, date_to):
+    """
+    Finds id of the next available swimlane.
+    If there is no available swimline during provided reservation time returns None.
+    """
+
     overlapping_reservations = Reservation.get_overlapping_reservations(date_from, date_to)
 
     swimlines_info, lines_reserved_by_swim_schools = get_swimlines_info(config,
@@ -66,6 +90,11 @@ def find_next_available_swimlane(config, client_type, date_from, date_to):
 
 
 def pay_for_reservation(reservation_id):
+    """
+    Given reservation_id marks corresponding Reservation as paid.
+    Raises an error if reservation with such id doesn't exist or if it is already paid.
+    """
+
     reservation = Reservation.objects.get(pk=reservation_id)
 
     if reservation.is_paid:

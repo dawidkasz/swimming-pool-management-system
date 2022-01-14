@@ -33,6 +33,11 @@ class Reservation(models.Model):
 
     @classmethod
     def get_overlapping_reservations(cls, date_from, date_to):
+        """
+        Returns from the database all reservations, which overlap 
+        with the given interval in any point in time.
+        """
+
         return cls.objects.filter(start_date__lte=date_to, end_date__gte=date_from)
 
     def __str__(self):
