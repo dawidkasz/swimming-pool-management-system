@@ -1,0 +1,11 @@
+<div class="col">
+    <form method="POST" action="{% url 'pay-for-reservation' %}" enctype="multipart/form-data">
+        <div class="mb-3">
+            <h3>Pay for reservation</h3>
+            <h6>Enter a reservation id or upload the ticket.</h6>
+        </div>
+        {% csrf_token %}
+        {{ pay_form.as_p }}
+        <input type="submit" value="Submit" class="btn btn-primary">
+    </form>
+</div>

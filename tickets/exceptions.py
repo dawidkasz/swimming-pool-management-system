@@ -4,3 +4,7 @@ class NoAvailableSwimlaneError(Exception):
 
 class FacilityClosedError(Exception):
     pass
+
+
+class ReservationAlreadyPaidForError(Exception):
+    pass

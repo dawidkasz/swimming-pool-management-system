@@ -3,7 +3,8 @@ from django.test import TestCase
 from .models import Reservation
 from .utils import (is_weekday, facility_open,
                     calculate_ticket_price, get_swimlines_info,
-                    find_next_available_swimlane)
+                    find_next_available_swimlane, pay_for_reservation)
+from .exceptions import ReservationAlreadyPaidForError
 
 
 class TestSetUp(TestCase):
@@ -169,3 +170,22 @@ class UtilsTestCase(TestSetUp):
                                                 date_from, date_to)
 
         self.assertIs(swimline, None)
+
+    def test_pay_for_reservation(self):
+        obj_before_payment = Reservation.objects.get(pk=self.r1.id)
+        self.assertIs(obj_before_payment.is_paid, False)
+
+        pay_for_reservation(self.r1.id)
+
+        obj_after_payment = Reservation.objects.get(pk=self.r1.id)
+        self.assertIs(obj_after_payment.is_paid, True)
+
+    def test_pay_for_reservation_invalid_id(self):
+        with self.assertRaises(Reservation.DoesNotExist):
+            pay_for_reservation("this_reservation_id_is_for_sure_invalid")
+
+    def test_pay_for_reservation_already_paid(self):
+        pay_for_reservation(self.r2.id)
+
+        with self.assertRaises(ReservationAlreadyPaidForError):
+            pay_for_reservation(self.r2.id)

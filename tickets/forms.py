@@ -1,4 +1,6 @@
 import datetime
+import PIL
+from pyzbar import pyzbar
 from django import forms
 from .models import Reservation
 from panel.utils import get_config
@@ -7,9 +9,9 @@ from .exceptions import NoAvailableSwimlaneError, FacilityClosedError
 
 
 class ReservationForm(forms.ModelForm):
-    duration_choices = [(duration, duration) for duration in range(1, 8)]
-    duration = forms.ChoiceField(choices=duration_choices)
+    duration_choices = [(duration, f"{duration}h") for duration in range(1, 8)]
 
+    duration = forms.ChoiceField(choices=duration_choices)
     start_date = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
 
     def save(self, commit=True):
@@ -43,3 +45,24 @@ class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
         fields = ['start_date', 'client_type']
+
+
+class PayForReservationForm(forms.Form):
+    reservation_id = forms.CharField(max_length=8, strip=True, required=False)
+    ticket = forms.ImageField(required=False)
+
+    def is_valid(self):
+        if not super().is_valid():
+            return False
+        print(self.cleaned_data['reservation_id'], self.cleaned_data['ticket'])
+        return self.cleaned_data['reservation_id'] or self.cleaned_data['ticket']
+
+    def parse_reservation_id(self):
+        if self.cleaned_data['reservation_id']:
+            return self.cleaned_data['reservation_id']
+
+        if self.cleaned_data['ticket']:
+            image_bytes = self.cleaned_data['ticket'].file
+            decoded_qr = pyzbar.decode(PIL.Image.open(image_bytes))
+
+            return decoded_qr[0].data.decode()

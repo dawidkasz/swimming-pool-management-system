@@ -3,45 +3,13 @@
 
 <div class="container">
     <div class="row pt-2">
-        <div class="col">
-            {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.extra_tags }}" id="msg-{{ forloop.counter }}">
-                            {{message}}
-
-                            <button class="btn-close float-end" onclick="hideElement('msg-{{ forloop.counter }}')"></button>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-
-            <form method="POST" action="{% url 'make-reservation' %}">
-                <h3 class="mb-3">Make a reservation:</h3>
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Submit" class="btn btn-primary">
-            </form>
-        </div>
-        <div class="col">
-            <h3>Swimlines info</h3>
-            <table class="table table-secondary table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Line id</th>
-                        <th scope="col">Free spots</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for line, spots in info.items %}
-                        <tr>
-                            <td>{{ line }}</td><td>{{ spots }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        {% include 'tickets/includes/make_reservation.html' %}
+        {% include 'tickets/includes/swimlines_info.html' %}
     </div>
+    <div class="row">
+        {% include 'tickets/includes/pay_for_reservation.html' %}
+    </div>
+
 </div>
 
 {% endblock content %}

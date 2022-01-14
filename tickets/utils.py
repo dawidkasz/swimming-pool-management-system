@@ -1,5 +1,6 @@
 import datetime
 from .models import Reservation
+from .exceptions import ReservationAlreadyPaidForError
 
 
 def is_weekday(date):
@@ -62,3 +63,13 @@ def find_next_available_swimlane(config, client_type, date_from, date_to):
         if (client_type == Reservation.SWIM_SCHOOL and free_spots == config.spots_per_swimlane) or\
                 (client_type == Reservation.PRIVATE_CLIENT and free_spots > 0):
             return swimlane
+
+
+def pay_for_reservation(reservation_id):
+    reservation = Reservation.objects.get(pk=reservation_id)
+
+    if reservation.is_paid:
+        raise ReservationAlreadyPaidForError("You have already paid for this reservation.")
+
+    reservation.is_paid = True
+    reservation.save()
