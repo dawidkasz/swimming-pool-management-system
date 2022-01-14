@@ -21,7 +21,7 @@ class SiteConfiguration(SingletonModel):
                                                          decimal_places=2, default=7.59)
 
     price_weekdays_swim_schools = models.DecimalField(max_digits=6,
-                                                         decimal_places=2, default=32.99)
+                                                      decimal_places=2, default=32.99)
     price_weekends_swim_schools = models.DecimalField(max_digits=6,
                                                       decimal_places=2, default=35.99)
 
