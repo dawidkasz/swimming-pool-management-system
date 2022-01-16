@@ -1,8 +1,8 @@
-from datetime import datetime
+from datetime import datetime, date
 from django.test import TestCase
 from tickets.models import Reservation
 from .utils import (preprocess_income_data, preprocess_reservations_data,
-                    get_year_or_current, generate_n_past_years)
+                    get_year_or_current, generate_n_past_years, generate_report)
 
 
 class TestSetUp(TestCase):
@@ -56,6 +56,12 @@ class TestSetUp(TestCase):
                                             client_type=Reservation.SWIM_SCHOOL,
                                             is_paid=True,
                                             price=11)
+        cls.r9 = Reservation.objects.create(start_date=datetime(2022, 2, 2, 8, 0),
+                                            end_date=datetime(2022, 2, 2, 10, 0),
+                                            swimlane=4,
+                                            client_type=Reservation.SWIM_SCHOOL,
+                                            is_paid=False,
+                                            price=11)
 
 
 class UtilsTestCase(TestSetUp):
@@ -78,7 +84,7 @@ class UtilsTestCase(TestSetUp):
     def test_preprocess_reservations_data(self):
         expected_output = {
             "paid_reservations": [1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            "unpaid_reservations": [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            "unpaid_reservations": [0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         }
 
         self.assertEqual(preprocess_reservations_data(2022), expected_output)
@@ -103,3 +109,18 @@ class UtilsTestCase(TestSetUp):
         expected_output = [current_year, current_year-1, current_year-2, current_year-3]
 
         self.assertEqual(generate_n_past_years(4), expected_output)
+
+    def test_generate_report(self):
+        report = f"REPORT 2022-02-02\n" \
+             f"=======================================\n" \
+             f"Total income: 32.00\n" \
+             f"Amount of paid reservations: 2\n" \
+             f"Amount of unpaid reservations: 1\n" \
+             f"Private clients: 1\n" \
+             f"Swim school clients: 2\n\n" \
+             f"reservation_id;client_type;income\n" \
+             f"{self.r5.id};private_client;7.00\n" \
+             f"{self.r6.id};swim_school;25.00\n"\
+             f"{self.r9.id};swim_school;0\n"
+
+        self.assertEqual(generate_report(date(2022, 2, 2)), report)
