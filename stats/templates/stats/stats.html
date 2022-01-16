@@ -1,6 +1,35 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
 
-Stats
+<div class="container">
+    <div class="row">
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            <label for="income-chart-year">Select year:</label>
+            <select id="income-chart-year">
+                {% for choice in years_choices %}
+                    <option value="{{ choice }}">{{ choice }}</option>
+                {% endfor %}
+                </select>
+            <canvas id="income-chart"></canvas> 
+        </div>
+        
+        <div class="col">
+            <label for="reservations-chart-year">Select year:</label>
+            <select id="reservations-chart-year">
+                {% for choice in years_choices %}
+                    <option value="{{ choice }}">{{ choice }}</option>
+                {% endfor %}
+              </select>
+            <canvas id="reservations-chart"></canvas> 
+        </div>
+    </div>
+</div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{% static 'charts.js' %}"></script>
 {% endblock content %}
+
