@@ -16,7 +16,7 @@ class ReservationForm(forms.ModelForm):
 
     def save(self, commit=True):
         """
-        Parses the form data. When everything is validated, saves a Reservation 
+        Parses the form data. When everything is validated, saves a Reservation
         instance to the database and returns it.
         """
 
@@ -68,7 +68,7 @@ class PayForReservationForm(forms.Form):
 
     def parse_reservation_id(self):
         """
-        Parses reservation_id from the form: firstly considers id provided 
+        Parses reservation_id from the form: firstly considers id provided
         in the CharField, then tries to decode it from the uploaded QR code.
         """
 

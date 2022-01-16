@@ -13,7 +13,7 @@ def is_weekday(date):
 
 def facility_open(config, start_date, end_date):
     """
-    Returns True if the facility is open during provided 
+    Returns True if the facility is open during provided
     start_date and end_date, False otherwise.
     """
 
@@ -48,7 +48,7 @@ def calculate_ticket_price(config, client_type, reservation_date):
 
 def get_swimlines_info(config, reservations):
     """
-    Given a collection of reservations returns a tuple containing a dictionary 
+    Given a collection of reservations returns a tuple containing a dictionary
     of swimlines with the corresponding free spots and total number of lines, which
     are taken by swim schools.
     """
