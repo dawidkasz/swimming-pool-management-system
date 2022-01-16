@@ -5,6 +5,19 @@
 
 <div class="container">
     <div class="row">
+        <div class="col mb-2">
+            <div class="mb-1">
+                <label for="report-date">Generate detailed report:</label>
+                <input type="date" id="report-date" class="m-1">
+            </div>
+            <div>
+                <input class="btn btn-primary btn-sm"
+                        type="button" value="Generate" 
+                        id="generate-report-btn" 
+                        onclick="generateReport()">
+            </div>
+            <hr class="bg-secondary border-2 border-top border-secondary">
+        </div>
     </div>
     <div class="row mt-3">
         <div class="col">
