@@ -121,14 +121,16 @@ class UtilsTestCase(TestSetUp):
     def test_calculate_ticket_price_private_client(self):
         price = calculate_ticket_price(self.config,
                                        Reservation.PRIVATE_CLIENT,
-                                       datetime(2021, 12, 20, 14, 0))
-        self.assertEqual(price, 7.99)
+                                       datetime(2021, 12, 20, 14, 0),
+                                       datetime(2021, 12, 20, 16, 0))
+        self.assertEqual(price, 7.99*2)
 
     def test_calculate_ticket_price_swim_school(self):
         price = calculate_ticket_price(self.config,
                                        Reservation.SWIM_SCHOOL,
-                                       datetime(2021, 12, 25, 12, 0))
-        self.assertEqual(price, 39.99)
+                                       datetime(2021, 12, 25, 12, 0),
+                                       datetime(2021, 12, 25, 15, 0))
+        self.assertEqual(price, 39.99*3)
 
     def test_get_swimlines_info(self):
         date_from = datetime(2021, 12, 29, 11, 0)

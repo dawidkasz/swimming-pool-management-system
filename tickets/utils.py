@@ -30,20 +30,24 @@ def facility_open(config, start_date, end_date):
     return start_date_valid and end_date_valid
 
 
-def calculate_ticket_price(config, client_type, reservation_date):
+def calculate_ticket_price(config, client_type, start_date, end_date):
     """
     Calculates adequate ticket price based on provided client_type and reservation_date.
     """
 
-    weekday = is_weekday(reservation_date)
+    duration = (end_date - start_date)
+    duration_hours =  duration.seconds // 3600
+    weekday = is_weekday(start_date)
 
     if client_type == Reservation.PRIVATE_CLIENT:
-        return config.price_weekdays_private_clients if weekday \
+        price = config.price_weekdays_private_clients if weekday \
             else config.price_weekends_private_clients
 
     if client_type == Reservation.SWIM_SCHOOL:
-        return config.price_weekdays_swim_schools if weekday \
+        price = config.price_weekdays_swim_schools if weekday \
             else config.price_weekends_swim_schools
+
+    return price * duration_hours
 
 
 def get_swimlines_info(config, reservations):

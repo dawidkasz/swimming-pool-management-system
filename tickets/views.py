@@ -36,9 +36,10 @@ def make_reservation(request):
             reservation_id = reservation.id
 
             # flake8: noqa E501
-            qr_code_ahref = f"<a href='{reverse('generate-qr', args=[reservation_id])}'>Get the ticket</a>"
+            qr_code_ahref = f"<a href='{reverse('generate-qr', args=[reservation_id])}'>Get the ticket.</a>"
 
-            messages.success(request, f'Reservation <b>{reservation_id}</b> created. {qr_code_ahref}', extra_tags='success')
+            messages.success(request, f'Reservation <b>{reservation_id}</b> created. ' \
+                                      f'Price: {reservation.price}. {qr_code_ahref}', extra_tags='success')
         except (NoAvailableSwimlaneError, FacilityClosedError) as error_msg:
             messages.error(request, error_msg, extra_tags='danger')
     else:

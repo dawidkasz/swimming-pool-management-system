@@ -40,7 +40,7 @@ class ReservationForm(forms.ModelForm):
 
         reservation.swimlane = swimlane
         reservation.price = calculate_ticket_price(config, reservation.client_type,
-                                                   reservation.start_date)
+                                                   reservation.start_date, reservation.end_date)
 
         if commit:
             reservation.save()
