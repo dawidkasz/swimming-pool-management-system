@@ -36,7 +36,7 @@ def calculate_ticket_price(config, client_type, start_date, end_date):
     """
 
     duration = (end_date - start_date)
-    duration_hours =  duration.seconds // 3600
+    duration_hours = duration.seconds // 3600
     weekday = is_weekday(start_date)
 
     if client_type == Reservation.PRIVATE_CLIENT:

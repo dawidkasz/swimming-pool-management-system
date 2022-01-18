@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="container">
-    <div class="row">
+    <div class="row pt-2">
         <div class="col mb-2">
             <div class="mb-1">
                 <label for="report-date">Generate detailed report:</label>
@@ -12,11 +12,11 @@
             </div>
             <div>
                 <input class="btn btn-primary btn-sm"
-                        type="button" value="Generate" 
-                        id="generate-report-btn" 
+                        type="button" value="Generate"
+                        id="generate-report-btn"
                         onclick="generateReport()">
             </div>
-            <hr class="bg-secondary border-2 border-top border-secondary">
+            <hr class="bg-secondary border-2 border-top border-secondary mt-4">
         </div>
     </div>
     <div class="row mt-3">
@@ -27,9 +27,9 @@
                     <option value="{{ choice }}">{{ choice }}</option>
                 {% endfor %}
                 </select>
-            <canvas id="income-chart"></canvas> 
+            <canvas id="income-chart"></canvas>
         </div>
-        
+
         <div class="col">
             <label for="reservations-chart-year">Select year:</label>
             <select id="reservations-chart-year">
@@ -37,7 +37,7 @@
                     <option value="{{ choice }}">{{ choice }}</option>
                 {% endfor %}
               </select>
-            <canvas id="reservations-chart"></canvas> 
+            <canvas id="reservations-chart"></canvas>
         </div>
     </div>
 </div>
