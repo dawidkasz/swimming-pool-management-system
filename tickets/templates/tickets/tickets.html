@@ -2,14 +2,16 @@
 {% block content %}
 
 <div class="container">
-    <div class="row pt-2">
-        {% include 'tickets/includes/make_reservation.html' %}
-        {% include 'tickets/includes/swimlines_info.html' %}
-    </div>
     <div class="row">
-        {% include 'tickets/includes/pay_for_reservation.html' %}
-    </div>
+        <div class="col">
+            {% include 'tickets/includes/make_reservation.html' %}
+            {% include 'tickets/includes/pay_for_reservation.html' %}
+        </div>
 
+        <div class="col">
+        {% include 'tickets/includes/swimlines_info.html' %}
+        </div>
+    </div>
 </div>
 
 {% endblock content %}
