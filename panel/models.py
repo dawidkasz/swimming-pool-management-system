@@ -39,11 +39,22 @@ class SiteConfiguration(SingletonModel):
                                                 default=0.35,
                                                 validators=[MinValueValidator(0),
                                                             MaxValueValidator(1)])
-    entry_at_opening_discount = models.DecimalField(max_digits=3,
-                                                    decimal_places=2,
-                                                    default=1,
-                                                    validators=[MinValueValidator(0),
-                                                            MaxValueValidator(1)])
+
+    def dict(self):
+        return {
+            'name': self.name,
+            'num_of_swimlanes': self.num_of_swimlanes,
+            'spots_per_swimlane': self.spots_per_swimlane,
+            'open_time_weekdays': self.open_time_weekdays,
+            'close_time_weekdays': self.close_time_weekdays,
+            'open_time_weekends': self.open_time_weekends,
+            'close_time_weekends': self.close_time_weekends,
+            'price_weekdays_private_clients': self.price_weekdays_private_clients,
+            'price_weekends_private_clients': self.price_weekends_private_clients,
+            'price_weekdays_swim_schools': self.price_weekdays_swim_schools,
+            'price_weekends_swim_schools': self.price_weekends_swim_schools,
+            'swim_schools_treshold': self.swim_schools_treshold,
+        }
 
     def __str__(self):
         return f'{self.name} configuration'

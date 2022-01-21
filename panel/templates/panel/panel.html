@@ -11,7 +11,11 @@
     </div>
     <div class="row mt-3">
         <div class="col">
-            <form method="POST">
+            {% include 'includes/messages.html' %}
+
+            <h5 class="mb-3">Configuration</h5>
+
+            <form method="POST" action="{% url 'update-configuration' %}">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <input type="submit" value="Save" class="btn btn-primary">

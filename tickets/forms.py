@@ -36,7 +36,7 @@ class ReservationForm(forms.ModelForm):
             raise NoAvailableSwimlaneError("No available swimlane found for this reservation time.")
 
         if not facility_open(config, reservation.start_date, reservation.end_date):
-            raise FacilityClosedError(f"{config.name} is closed during provided reservation time.")
+            raise FacilityClosedError(f"{config.name} is closed during this reservation time.")
 
         reservation.swimlane = swimlane
         reservation.price = calculate_ticket_price(config, reservation.client_type,
