@@ -2,7 +2,26 @@
 {% block content %}
 
 <div class="container">
-    Panel
+    <div class="row pt-2">
+        <div class="col">
+            If you want full access to settings
+            <a href="{% url 'admin:index' %}">Log in</a> to the admin panel.
+            <hr class="bg-secondary border-2 border-top border-secondary">
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            {% include 'includes/messages.html' %}
+
+            <h5 class="mb-3">Configuration</h5>
+
+            <form method="POST" action="{% url 'update-configuration' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Save" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
 </div>
 
 {% endblock content %}

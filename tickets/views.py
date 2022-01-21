@@ -49,9 +49,7 @@ def make_reservation(request):
 
 
 @require_POST
-def pay_for_reservation(request):
-    from .utils import pay_for_reservation
-
+def reservation_pay(request):
     pay_form = PayForReservationForm(request.POST, request.FILES)
 
     if not pay_form.is_valid():
