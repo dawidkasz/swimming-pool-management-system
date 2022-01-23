@@ -1,9 +1,9 @@
 from datetime import datetime, time
 from django.test import TestCase
 from .models import Reservation
-from .utils import (is_weekday, facility_open,
-                    calculate_ticket_price, get_swimlines_info,
-                    find_next_available_swimlane, pay_for_reservation)
+from .utils import (is_weekday, facility_open, calculate_ticket_price,
+                    get_swimlines_info, find_next_available_swimlane,
+                    pay_for_reservation, find_next_free_term)
 from .exceptions import ReservationAlreadyPaidForError
 
 
@@ -191,3 +191,15 @@ class UtilsTestCase(TestSetUp):
 
         with self.assertRaises(ReservationAlreadyPaidForError):
             pay_for_reservation(self.r2.id)
+
+    def test_find_next_free_term(self):
+        date_from = datetime(2022, 3, 5, 16, 0)
+        duration = 3
+        client_type = Reservation.PRIVATE_CLIENT
+
+        excepted_next_free_term = (datetime(2022, 3, 6, 9, 0), datetime(2022, 3, 6, 12, 0))
+
+        self.assertEqual(find_next_free_term(self.config,
+                                             client_type,
+                                             date_from,
+                                             duration), excepted_next_free_term)
