@@ -1,4 +1,19 @@
 # Dokumentacja
+- [Instalacja](index.md#instalacja)
+- [Uruchomienie](index.md#uruchomienie)
+- [Testowanie](index.md#testowanie)
+- [Użytkowanie](index.md#użytkowanie)
+    - [tickets](index.md#tickets)
+    - [stats](index.md#stats)
+    - [panel](index.md#panel)
+- [Struktura projektu](index.md#struktura-projektu)
+    - [swimming_pool_management_system](index.md#swimming_pool_management_system)
+    - [tickets](index.md#tickets-1)
+    - [stats](index.md#stats-1)
+    - [panel](index.md#panel-1)
+    - [templates](index.md#templates)
+    - [static](index.md#static)
+    - [docs](index.md#docs)    
 
 ## Instalacja
 1. Sklonować repozytorium.<br>
