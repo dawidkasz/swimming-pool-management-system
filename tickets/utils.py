@@ -106,3 +106,26 @@ def pay_for_reservation(reservation_id):
 
     reservation.is_paid = True
     reservation.save()
+
+
+def find_next_free_term(config, client_type, date_from, duration, max_future_days=90):
+    """
+    Finds the next free reservation term, starting from the given date. Only considers
+    full hours e.g.
+    """
+
+    duration_timedelta = datetime.timedelta(hours=duration)
+    date_from_timedelta = datetime.timedelta(hours=1)
+    _date_from = datetime.datetime(year=date_from.year, month=date_from.month,
+                                   day=date_from.day, hour=date_from.hour)
+
+    while abs(_date_from - date_from) < datetime.timedelta(days=max_future_days):
+        _date_to = _date_from + duration_timedelta
+        if not facility_open(config, _date_from, _date_to):
+            _date_from += date_from_timedelta
+            continue
+
+        if find_next_available_swimlane(config, client_type, _date_from, _date_to):
+            return (_date_from, _date_to)
+
+        _date_from += date_from_timedelta

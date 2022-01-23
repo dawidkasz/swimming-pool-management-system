@@ -50,7 +50,8 @@ Przechodzenie pomiędzy poszczególnymi modułami umożliwa pasek nawigacyjny w 
 Moduł Tickets odpowiada za tworzenie / opłacanie rezerwacji oraz wyświetlanie liczby wolnych miejsc na torach pływackich w danym momencie.<br>
 Każda rezerwacja domyślnie jest oznaczona jako nieopłacona i nie wlicza się do przychodów pływalni, aż do momentu opłacenia biletu.<br>
 Rezerwacja dokonana na klienta indywidualnego powoduje rezerwację jednego wolnego miejsca na pierwszym wolnym torze, natomiast<br>
-gdy klientem jest szkółka pływacka rezerwowany jest pierwszy dostępny cały tor.
+gdy klientem jest szkółka pływacka rezerwowany jest pierwszy dostępny cały tor.<br>
+W przypadku braku miejsc na pływalni w czasie rezerwacji wyświetlany jest stosowny komunikat oraz informacja o następnym wolnym terminie.
 
 Przykładowa interakcja z użytkownikiem może wyglądać następująco:
 1. Pracownik pływalni wprowadza do systemu dane dotyczące rezerwacji. W odpowiedzi zwracany jest unikalny identyfikator oraz bilet w postaci kodu QR, które<br>
@@ -61,6 +62,10 @@ Przykładowa interakcja z użytkownikiem może wyglądać następująco:
 **Formularz służący do tworzenia rezerwacji**
 
 ![make_reservation](../img/make_reservation.png)
+
+**Przykładowy komunikat o braku dostępnych miejsc oraz o następnym wolnym terminie**
+
+![next_free_term](../img/next_free_term.png)
 
 **Formularz służący do opłacania rezerwacji**
 
@@ -125,7 +130,8 @@ Możliwe jest modyfikowanie następujących parametrów:
 - [forms.py](../../tickets/forms.py) - zawiera logikę dla dwóch głównych formularzy renderowanych w module tickets:<br>
   `ReservationForm`(tworzenie rezerwacji) oraz `PayForReservationForm`(opłacanie rezerwacji).
 - [utils.py](../../tickets/utils.py) - funkcje odpowiadające za logikę modułu np. pobieranie informacji o liczbie dostępnych miejsc na torach,<br>
-  sprawdzanie czy placówka jest w danym terminie otwarta i jaka powinna być cena biletu dla danego klienta w danym dniu.
+  sprawdzanie czy placówka jest w danym terminie otwarta i jaka powinna być cena biletu dla danego klienta w danym dniu, znajdywanie następnego<br>
+  wolnego terminu rezerwacji.
 - [views.py](../../tickets/views.py) - funkcje wykorzystujące logikę modułu do renderowania odpowiedniego widoku HTML oraz odpowiedzialne za obsługę<br>
   odpowiednich zapytań wysyłanych z formularzy lub żądających zwrócenia kodu qr.
 - [tests.py](../../tickets/tests.py) - testy jednostkowe dla modułu tickets.

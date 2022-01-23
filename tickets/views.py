@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.views.decorators.http import require_GET, require_POST
 from .forms import ReservationForm, PayForReservationForm
-from .utils import get_swimlines_info, pay_for_reservation
+from .utils import get_swimlines_info, pay_for_reservation, find_next_free_term
 from .models import Reservation
 from panel.utils import get_config
 from .exceptions import NoAvailableSwimlaneError, FacilityClosedError, ReservationAlreadyPaidForError
@@ -27,6 +27,7 @@ def tickets_home(request):
 
 @require_POST
 def make_reservation(request):
+    config = get_config()
     form = ReservationForm(request.POST)
     reservation_id = None
 
@@ -42,6 +43,13 @@ def make_reservation(request):
                                       f'Price: {reservation.price}. {qr_code_ahref}', extra_tags='success')
         except (NoAvailableSwimlaneError, FacilityClosedError) as error_msg:
             messages.error(request, error_msg, extra_tags='danger')
+
+            next_free_term = find_next_free_term(config,
+                                                 form.cleaned_data['client_type'],
+                                                 form.cleaned_data['start_date'],
+                                                 int(form.cleaned_data['duration']))
+            if next_free_term:
+                messages.info(request, f"Next free term is: {next_free_term[0]}", extra_tags='info')
     else:
         messages.error(request, 'Reservation form contains errors.', extra_tags='danger')
 
