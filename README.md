@@ -1,5 +1,5 @@
 # Swimming pool management system
-Swimming pool management system created using [Django](https://www.djangoproject.com/), Bootstrap5](https://getbootstrap.com/) and [Charts.js](https://www.chartjs.org/).
+Swimming pool management system created using [Django](https://www.djangoproject.com/), [Bootstrap5](https://getbootstrap.com/) and [Charts.js](https://www.chartjs.org/).
 
 Project is divided into 3 modules:
 - Tickets - responsible for creating reservations, generating tickets(QR codes), recording payments and displaying information about free swimlanes.
