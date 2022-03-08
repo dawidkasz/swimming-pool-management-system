@@ -50,10 +50,10 @@ def calculate_ticket_price(config, client_type, start_date, end_date):
     return price * duration_hours
 
 
-def get_swimlines_info(config, reservations):
+def get_swimlanes_info(config, reservations):
     """
     Given a collection of reservations returns a tuple containing a dictionary
-    of swimlines with the corresponding free spots and total number of lines, which
+    of swimlanes with the corresponding free spots and total number of lines, which
     are taken by swim schools.
     """
 
@@ -75,19 +75,19 @@ def get_swimlines_info(config, reservations):
 def find_next_available_swimlane(config, client_type, date_from, date_to):
     """
     Finds id of the next available swimlane.
-    If there is no available swimline during provided reservation time returns None.
+    If there is no available swimlane during provided reservation time returns None.
     """
 
     overlapping_reservations = Reservation.get_overlapping_reservations(date_from, date_to)
 
-    swimlines_info, lines_reserved_by_swim_schools = get_swimlines_info(config,
+    swimlanes_info, lines_reserved_by_swim_schools = get_swimlanes_info(config,
                                                                         overlapping_reservations)
 
     if client_type == Reservation.SWIM_SCHOOL and \
             lines_reserved_by_swim_schools / config.num_of_swimlanes > config.swim_schools_treshold:
         return
 
-    for swimlane, free_spots in swimlines_info.items():
+    for swimlane, free_spots in swimlanes_info.items():
         if (client_type == Reservation.SWIM_SCHOOL and free_spots == config.spots_per_swimlane) or\
                 (client_type == Reservation.PRIVATE_CLIENT and free_spots > 0):
             return swimlane
