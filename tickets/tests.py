@@ -2,7 +2,7 @@ from datetime import datetime, time
 from django.test import TestCase
 from .models import Reservation
 from .utils import (is_weekday, facility_open, calculate_ticket_price,
-                    get_swimlines_info, find_next_available_swimlane,
+                    get_swimlanes_info, find_next_available_swimlane,
                     pay_for_reservation, find_next_free_term)
 from .exceptions import ReservationAlreadyPaidForError
 
@@ -132,17 +132,17 @@ class UtilsTestCase(TestSetUp):
                                        datetime(2021, 12, 25, 15, 0))
         self.assertEqual(price, 39.99*3)
 
-    def test_get_swimlines_info(self):
+    def test_get_swimlanes_info(self):
         date_from = datetime(2021, 12, 29, 11, 0)
         date_to = datetime(2022, 2, 2, 16, 45)
         overlapping_reservations = Reservation.get_overlapping_reservations(date_from,
                                                                             date_to)
 
-        swimlines_info, lines_reserved_by_swim_schools = get_swimlines_info(
+        swimlanes_info, lines_reserved_by_swim_schools = get_swimlanes_info(
             self.config, overlapping_reservations
         )
 
-        self.assertEqual(swimlines_info, {
+        self.assertEqual(swimlanes_info, {
             1: 0,
             2: 4,
             3: 0
@@ -152,26 +152,26 @@ class UtilsTestCase(TestSetUp):
     def test_find_next_available_swimlane_private_client(self):
         date_from = datetime(2022, 1, 10, 16, 0)
         date_to = datetime(2022, 1, 10, 17, 0)
-        swimline = find_next_available_swimlane(self.config, Reservation.PRIVATE_CLIENT,
+        swimlane = find_next_available_swimlane(self.config, Reservation.PRIVATE_CLIENT,
                                                 date_from, date_to)
 
-        self.assertEqual(swimline, 2)
+        self.assertEqual(swimlane, 2)
 
     def test_find_next_available_swimlane_swim_school(self):
         date_from = datetime(2022, 3, 5, 16, 10)
         date_to = datetime(2022, 3, 5, 18, 10)
-        swimline = find_next_available_swimlane(self.config, Reservation.SWIM_SCHOOL,
+        swimlane = find_next_available_swimlane(self.config, Reservation.SWIM_SCHOOL,
                                                 date_from, date_to)
 
-        self.assertEqual(swimline, 3)
+        self.assertEqual(swimlane, 3)
 
     def test_find_next_available_swimlane_swim_school_above_treshold(self):
         date_from = datetime(2022, 2, 2, 14, 0)
         date_to = datetime(2022, 3, 5, 15, 30)
-        swimline = find_next_available_swimlane(self.config, Reservation.SWIM_SCHOOL,
+        swimlane = find_next_available_swimlane(self.config, Reservation.SWIM_SCHOOL,
                                                 date_from, date_to)
 
-        self.assertIs(swimline, None)
+        self.assertIs(swimlane, None)
 
     def test_pay_for_reservation(self):
         obj_before_payment = Reservation.objects.get(pk=self.r1.id)

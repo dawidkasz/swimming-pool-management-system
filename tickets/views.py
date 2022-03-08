@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.views.decorators.http import require_GET, require_POST
 from .forms import ReservationForm, PayForReservationForm
-from .utils import get_swimlines_info, pay_for_reservation, find_next_free_term
+from .utils import get_swimlanes_info, pay_for_reservation, find_next_free_term
 from .models import Reservation
 from panel.utils import get_config
 from .exceptions import NoAvailableSwimlaneError, FacilityClosedError, ReservationAlreadyPaidForError
@@ -18,7 +18,7 @@ def tickets_home(request):
     current_reservations = Reservation.get_overlapping_reservations(datetime.now(),
                                                                     datetime.now())
 
-    info = get_swimlines_info(config, current_reservations)[0]
+    info = get_swimlanes_info(config, current_reservations)[0]
     form = ReservationForm()
     pay_form = PayForReservationForm()
 
